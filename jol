@@ -4,9 +4,14 @@
 # Released under the terms of GPLv3
 
 import sys
+import argparse
 
-
-def read_stream(stream):
+def read_stream(show_filename, filename, stream):
+    """
+        show_filename will indicate if the filename has to be prepended to the line that will be printed
+        filename: name of the file being read
+        stream: stream that will be 
+    """
     line = ""
     while True:
         prevLine = line
@@ -24,23 +29,32 @@ def read_stream(stream):
         # now we go back to the beginning of the line
         sys.stdout.write('\r')
 
+        if (show_filename):
+            sys.stdout.write(filename)
+            sys.stdout.write(":")
         sys.stdout.write(line)
 
-if len(sys.argv) == 1:
+# let's analyze parameters
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--filename", help="Show filenames", action="store_true")
+parser.add_argument("file", nargs="*", help="List of files that will be read. Use - for stdin. If none is provided, stdin will be read")
+args = parser.parse_args()
+
+if len(args.file) == 0:
     # reading from stdin straight
-    read_stream(sys.stdin)
+    read_stream(args.filename, '-', sys.stdin)
 else:
     # parameters were passed
-    for i in range(1, len(sys.argv)):
-        filename = sys.argv[i]
+    for filename in args.file:
         if (filename == '-'):
             # reading from stdin
-            read_stream(sys.stdin)
+            read_stream(args.filename, '-', sys.stdin)
         else:
             # we need to make sure file exists
             try:
-                infile = open(sys.argv[i], 'r')
-                read_stream(infile)
+                infile = open(filename, 'r')
+                read_stream(args.filename, filename, infile)
                 infile.close()
             except IOError as ioErr:
                 print(ioErr)
