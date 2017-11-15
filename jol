@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+# Copyright 2017 Edmundo Carmona Antoranz
+# Released under the terms of GPLv3
+
+import sys
+
+line = ""
+while True:
+    prevLine = line
+    line = sys.stdin.readline()
+
+    if len(line) == 0:
+        # reached EOL
+        sys.stdout.write('\n')
+        break
+
+    line = line.rstrip('\n')
+
+    # we delete as many chars as prevLine
+    for i in range(0, len(prevLine)):
+        sys.stdout.write('\b \b')
+
+    sys.stdout.write(line)
+
