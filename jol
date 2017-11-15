@@ -18,8 +18,10 @@ while True:
     line = line.rstrip('\n')
 
     # we delete as many chars as prevLine
-    for i in range(0, len(prevLine)):
+    for i in range(0, len(prevLine) - len(line)):
         sys.stdout.write('\b \b')
+    # now we go back to the beginning of the line
+    sys.stdout.write('\r')
 
     sys.stdout.write(line)
 
