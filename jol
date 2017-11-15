@@ -26,6 +26,22 @@ def read_stream(stream):
 
         sys.stdout.write(line)
 
-
-read_stream(sys.stdin)
+if len(sys.argv) == 1:
+    # reading from stdin straight
+    read_stream(sys.stdin)
+else:
+    # parameters were passed
+    for i in range(1, len(sys.argv)):
+        filename = sys.argv[i]
+        if (filename == '-'):
+            # reading from stdin
+            read_stream(sys.stdin)
+        else:
+            # we need to make sure file exists
+            try:
+                infile = open(sys.argv[i], 'r')
+                read_stream(infile)
+                infile.close()
+            except IOError as ioErr:
+                print(ioErr)
 sys.stdout.write('\n')
