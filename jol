@@ -5,23 +5,27 @@
 
 import sys
 
-line = ""
-while True:
-    prevLine = line
-    line = sys.stdin.readline()
 
-    if len(line) == 0:
-        # reached EOL
-        sys.stdout.write('\n')
-        break
+def read_stream(stream):
+    line = ""
+    while True:
+        prevLine = line
+        line = stream.readline()
 
-    line = line.rstrip('\n')
+        if len(line) == 0:
+            # reached EOL
+            break
 
-    # we delete as many chars as prevLine
-    for i in range(0, len(prevLine) - len(line)):
-        sys.stdout.write('\b \b')
-    # now we go back to the beginning of the line
-    sys.stdout.write('\r')
+        line = line.rstrip('\n')
 
-    sys.stdout.write(line)
+        # we delete as many chars as prevLine
+        for i in range(0, len(prevLine) - len(line)):
+            sys.stdout.write('\b \b')
+        # now we go back to the beginning of the line
+        sys.stdout.write('\r')
 
+        sys.stdout.write(line)
+
+
+read_stream(sys.stdin)
+sys.stdout.write('\n')
