@@ -35,6 +35,7 @@ def read_stream(show_filename, filename, stream):
             sys.stdout.write(filename)
             sys.stdout.write(":")
         sys.stdout.write(line)
+        sys.stdout.flush()
 
 # let's analyze parameters
 
